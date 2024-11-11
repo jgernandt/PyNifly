@@ -3598,20 +3598,20 @@ class NifExporter:
             self.write_bone(None, arma, b.name, arma.data.bones.keys())
 
 
-    def export_nif(self, fpath, suffix, sk):
+    def export_nif(self, fpath, suffix, sk, rn):
         """
         Export to a single nif file.
 
         * fpath = file path to write
         * suffix = None or "_facebones" when a filebones nif is to be written
         * sk = target shape key to export
+        * rn = default root node name
         """
         self.objs_written = ReprObjectCollection()
         NifFile.clear_log()
         self.nif = NifFile()
 
         rt = "NiNode"
-        rn = "Scene Root"
 
         if self.objects:
             shape = next(iter(self.objects))
@@ -3626,7 +3626,7 @@ class NifExporter:
             try:
                 rn = self.root_object["pynNodeName"]
             except:
-                rn = 'Scene Root'
+                pass
         else:
             if "pynRootNode_BlockType" in shape:
                 rt = shape["pynRootNode_BlockType"]
@@ -3726,7 +3726,7 @@ class NifExporter:
             fnamefull = fbasename + fname_ext[1]
             fpath = os.path.join(os.path.dirname(self.filepath), fnamefull)
 
-            self.export_nif(fpath, suffix, sk)
+            self.export_nif(fpath, suffix, sk, fnamefull)
 
         if len(self.trip.shapes) > 0:
             self.trip.write(self.trippath)
