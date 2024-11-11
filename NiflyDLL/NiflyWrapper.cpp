@@ -331,6 +331,9 @@ NIFLY_API int saveNif(void* the_nif, const char8_t* filename) {
         UpdateShapeSkinBoneBounds(nif, shape);
     }
     
+	//JG: This shouldn't be hardcoded, obviously, but I can't be bothered to do it properly
+    nif->GetHeader().SetCreatorInfo("jg");
+    
     nif->GetHeader().SetExportInfo("Created with pyNifly");
 
     return nif->Save(std::filesystem::path(filename));
